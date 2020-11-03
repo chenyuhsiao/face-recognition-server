@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+    <title>Face Recognition Service</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>face_recognition</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+    <link rel="stylesheet" type="text/css" href="//stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <script type="text/javascript" src="{{ url_for('static', filename='lodash.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='immutable.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='axios.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
+
+    <script>
+        function readURL(input){
+          if(input.files && input.files[0]){
+            var imageTagID = input.getAttribute("targetID");
+            var reader = new FileReader();
+            reader.onload = function (e) {
+               var img = document.getElementById(imageTagID);
+               img.setAttribute("src", e.target.result)
+            }
+            reader.readAsDataURL(input.files[0]);
+          }
+        }
+        function onclickA(){
+            exec="python app.py";
+            exec="python db.py";
+            exec="python face.py";
+            /*location.reload();*/
+
+        }
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <h1>Face Recognition</h1>
+
+    <ul class="tabs">
+        <li data-section="train-content">訓練</li>
+        <li data-section="recognize-content">辨識</li>
+    </ul>
+    <div id="train-content">
+        <h2>訓練圖片中的臉部</h2>
+        <form method="post" id="train">
+            <div class="message">
+
+            </div>
+            <p class="description">請上傳包含臉部的圖片(Upload an image)</p>
+            <div class="form-item">
+                <input type="file" name="file" onchange="readURL(this)" id="input-file" targetID="preview_img" accept="image/gif, image/jpeg, image/png">
+                <hr>
+                <img id="preview_img" src="#" width=200 height=300>
+
+            </div>
+            <div class="form-item">
+                <label>Full name</label>
+                <input id="name-field" name="name" value="" type="text" placeholder="Full name"/>
+                
+            </div>
+            <div>
+                <button class="btn btn-primary" type="submit" onclick=onclickA();>開始訓練</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="recognize-content">
+        <h2>Recognize</h2>
+
+        <form method="post" id="recognize">
+            <div class="message">
+
+            </div>
+            <p class="description">上傳其他包含人臉照片，檢查是否有認識的人</p>
+            <div class="form-item">
+                <label for="input-file">Face Image</label>
+                <input type="file" name="file" id="recognize-input-file" accept="image/*"/>
+            </div>
+
+            <div>
+                <button class="btn btn-primary" type="submit">辨識開始</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>
